@@ -98,4 +98,38 @@ class OrderController extends Controller
     {
         return view('website.order_complete');
     }
+
+    public function OrderList()
+    {
+        return view('website.order_list');
+    }
+
+    public function OrderListData()
+    {
+        $Query = Order::query()->orderBy('id', 'desc');
+
+        $this->i = 1;
+
+        return Datatables::of($Query)
+            ->addColumn('id', function ($data) {
+                return $this->i++;
+            })
+            ->addColumn('district', function ($data) {
+                return $data->District?$data->District->name:'';
+            })
+            ->addColumn('upazila', function ($data) {
+                return $data->Upazila?$data->Upazila->name:'';
+            })
+
+            ->addColumn('action', function ($data) {
+                $html = '';
+                $html .= '<button class="btn btn-primary btn-sm tableEdit" data-id="'.$data->id.'"><i class="fa fa-edit"></i></button>';
+                $html .= '<button class="btn btn-danger btn-sm tableDelete" data-id="'.$data->id.'"><i class="fa fa-trash"></i></button>';
+
+
+                return $html;
+            })
+            ->rawColumns(['action','address'])
+            ->toJSON();
+    }
 }

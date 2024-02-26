@@ -35,7 +35,7 @@
                             <a href="#">Links</a>
                             <div class="header-menu">
                                 <ul>
-                                    <li><a href="#">আপনাকে স্পারসে তে স্বাগতম!</a></li>
+                                    {{-- <li><a href="#">আপনাকে স্পারসে তে স্বাগতম!</a></li> --}}
                                     <!-- <li><a href="demo1-contact.html">Contact Us</a></li>
                                     <li><a href="wishlist.html">My Wishlist</a></li>
                                     <li><a href="#">Site Map</a></li>
@@ -51,7 +51,7 @@
 
                         <div class="social-icons">
                             <a href="https://www.facebook.com/profile.php?id=100095063290148&mibextid=ZbWKwL" class="social-icon social-facebook icon-facebook ml-0" target="_blank"></a>
-                            <a href="https://api.whatsapp.com/send/?phone=8801999968416&text&app_absent=0" class="social-icon social-facebook fab fa-whatsapp ml-0" target="_blank"></a>
+                            <a href="https://api.whatsapp.com/send/?phone=8801581726919&text&app_absent=0" class="social-icon social-facebook fab fa-whatsapp ml-0" target="_blank"></a>
                             <!-- <a href="#" class="social-icon social-twitter icon-twitter ml-0" target="_blank"></a> -->
                             <a href="https://www.instagram.com/_sparse_home?igsh=MXF4angyamxyM3pxdA==" class="social-icon social-instagram icon-instagram ml-0" target="_blank"></a>
                         </div>
@@ -70,7 +70,7 @@
                             <i class="fas fa-bars"></i>
                         </button>
                         <a href="{{ route('home') }}" class="logo">
-                            <img src="{{ URL::to('public/assets/images/logo.png') }}" width="111" height="44" alt="Porto Logo">
+                            <img src="{{ URL::to('public/assets/images/logo.png') }}" width="111" height="44" alt="Sparse Logo">
                         </a>
                     </div>
                     <!-- End .header-left -->

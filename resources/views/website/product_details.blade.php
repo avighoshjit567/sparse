@@ -101,6 +101,7 @@
 
                         <a href="javascript:;" class="btn btn-dark add-cart add-to-cart mr-2" data-id="{{ $Products->id }}" title="Add to Cart">Add to
                             Cart</a>
+                        <a href="javascript:;" class="btn btn-dark buy-now mr-2" data-id="{{ $Products->id }}" title="Buy now">BUY NOW</a>
 
                         <a href="{{ route('cart') }}" class="btn btn-gray view-cart d-none">View cart</a>
                     </div>
@@ -328,6 +329,7 @@
                             <!-- End .price-box -->
                             <div class="product-action">
                                 <a href="javascript:void(0);" class="btn-icon btn-add-cart add-to-cart" data-id="{{ $Related_product->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
+                                <a href="javascript:void(0);" class="btn-icon btn-add-cart buy-now" data-id="{{ $Related_product->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
                             </div>
                         </div>
                         <!-- End .product-details -->

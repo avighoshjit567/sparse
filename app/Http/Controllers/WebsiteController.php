@@ -123,6 +123,7 @@ class WebsiteController extends Controller
         $Districts  = Districts::get();
         $Divisions = Divisions::get();
         $Upazilas = Upazila::get();
+        // session()->put('shippingCharge', null);
         // $User = NUll;
         // if(Auth::user())
         // {

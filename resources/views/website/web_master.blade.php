@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>SPARSE - By Pranto Shaha</title>
+    <title>SPARSE</title>
 
     <meta name="keywords" content="HTML5 Template" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,7 +13,7 @@
     <meta name="author" content="SW-THEMES">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ URL::to('public/assets/images/icons/favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ URL::to('public/assets/images/logo.png') }}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
@@ -60,13 +60,13 @@
     </div>
     <!-- End .page-wrapper -->
 
-    <div class="loading-overlay">
+    {{-- <div class="loading-overlay">
         <div class="bounce-loader">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="mobile-menu-overlay"></div>
     <!-- End .mobil-menu-overlay -->
@@ -79,25 +79,25 @@
                 <i class="icon-home"></i>Home
             </a>
         </div>
-        <div class="sticky-info">
-            <a href="demo1-shop.html" class="">
+        {{-- <div class="sticky-info">
+            <a href="#" class="">
                 <i class="icon-bars"></i>Categories
             </a>
-        </div>
-        <div class="sticky-info">
+        </div> --}}
+        {{-- <div class="sticky-info">
             <a href="wishlist.html" class="">
                 <i class="icon-wishlist-2"></i>Wishlist
             </a>
-        </div>
+        </div> --}}
         <div class="sticky-info">
-            <a href="login.html" class="">
+            <a href="#" class="">
                 <i class="icon-user-2"></i>Account
             </a>
         </div>
         <div class="sticky-info">
-            <a href="cart.html" class="">
+            <a href="{{ route('cart') }}" class="">
                 <i class="icon-shopping-cart position-relative">
-                    <span class="cart-count badge-circle">3</span>
+                    <span class="cart-count badge-circle">{{ count((array) session('cart')) }}</span>
                 </i>Cart
             </a>
         </div>
@@ -167,6 +167,28 @@
                     toastr.options.positionClass = 'toast-bottom-right';
                     if (response == "success") {
                         toastr.success('Cart Added Successfull.');
+                    } else {
+                        toastr.error('This status has been changed to Inactive.');
+                    }
+                    cartCheck();
+                }
+            });
+        });
+
+        $(".buy-now").click(function(e) {
+            var id = $(this).data('id');
+            // alert(id);
+            let loc = window.location.origin;
+            var url = '{{ route('add.to.cart', ':id') }}';
+            $.ajax({
+                type: "GET"
+                , url: url.replace(':id', id)
+                , success: function(response) {
+                    console.log(response);
+                    toastr.options.positionClass = 'toast-bottom-right';
+                    if (response == "success") {
+                        toastr.success('Cart Added Successfull.');
+                        window.location.href = '{{ route("cart") }}';
                     } else {
                         toastr.error('This status has been changed to Inactive.');
                     }

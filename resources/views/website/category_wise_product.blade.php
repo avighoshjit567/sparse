@@ -164,6 +164,7 @@
 
                                     <div class="product-action">
                                         <a href="javascript:void(0);" class="btn-icon btn-add-cart add-to-cart" data-id="{{ $Product->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
+                                        <a href="javascript:void(0);" class="btn-icon btn-add-cart buy-now" data-id="{{ $Product->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
                                     </div>
                                 </div>
                                 <!-- End .product-details -->

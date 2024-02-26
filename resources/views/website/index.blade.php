@@ -60,7 +60,7 @@
             <!-- End .col-lg-9 -->
 
             <div class="sidebar-overlay"></div>
-            <div class="sidebar-toggle custom-sidebar-toggle"><i class="fas fa-sliders-h"></i></div>
+            {{-- <div class="sidebar-toggle custom-sidebar-toggle"><i class="fas fa-sliders-h"></i></div> --}}
             <aside class="sidebar-home col-lg-3 order-lg-first mobile-sidebar">
                 <div class="side-menu-wrapper text-uppercase mb-2 d-none d-lg-block">
                     <h2 class="side-menu-title bg-gray ls-n-25">Categories</h2>
@@ -181,6 +181,7 @@
                                                         class="fa fa-arrow-right"></i><span>SELECT
                                                         OPTIONS</span></a> --}}
                                     <a href="javascript:void(0);" class="btn-icon btn-add-cart add-to-cart" data-id="{{ $NewArrival->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
+                                    <a href="javascript:void(0);" class="btn-icon btn-add-cart buy-now" data-id="{{ $NewArrival->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
                                     {{-- <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a> --}}
                                 </div>
                             </div>
@@ -265,6 +266,7 @@
                                             class="fa fa-arrow-right"></i><span>SELECT
                                             OPTIONS</span></a> --}}
                                     <a href="javascript:void(0)" class="btn-icon btn-add-cart add-to-cart" data-id="{{ $AllProduct->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
+                                    <a href="javascript:void(0)" class="btn-icon btn-add-cart buy-now" data-id="{{ $AllProduct->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
                                     {{-- <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a> --}}
                                 </div>
                             </div>

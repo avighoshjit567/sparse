@@ -45,6 +45,8 @@ Route::get('upazila_get', [WebsiteController::class, 'UpazilaGet'])->name('upazi
 Route::patch('update_shipping_charge', [WebsiteController::class, 'UpdateShippingCharge'])->name('update.shipping.charge');
 Route::post('web_order_product_add', [OrderController::class, 'WebOrderProductAdd'])->name('web.order.product.add');
 Route::get('order-complete', [OrderController::class, 'OrderComplete'])->name('order.complete');
+Route::get('order-list', [OrderController::class, 'OrderList'])->name('order-list');
+Route::get('order-list-data', [OrderController::class, 'OrderListData'])->name('order-list.Data');
 
 Route::middleware('auth')->group(function () {
 

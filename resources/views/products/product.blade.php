@@ -334,7 +334,8 @@
                     $('input[name^="sale_price"]').val(responseText.data.sale_price);
                     $('input[name^="discount_amount"]').val(responseText.data.discount_amount);
                     $('textarea[name^="short_description"]').val(responseText.data.short_description);
-                    $('textarea[name^="long_description"]').val(responseText.data.long_description);
+                    $("#long_description").summernote('code', responseText.data.long_description);
+                    $("#additional_info").summernote('code', responseText.data.additional_info);
                     $("#UserAdd").modal('show');
                 }
             });

@@ -11438,8 +11438,8 @@ img.slide-bg {
 }
 
 .sticky-navbar .sticky-info {
-    flex: 0 0 20%;
-    max-width: 20%;
+    flex: 0 0 33%;
+    max-width: 33%;
     padding: 1rem 0
 }
 

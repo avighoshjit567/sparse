@@ -65,7 +65,9 @@ class ProductController extends Controller
             $query->category_id = $request->category_id;
             $query->brand_id    = $request->brand_id;
             $query->unit_id     = $request->unit_id;
-            $query->size        = implode(",",$request->size_id);
+            if($request->size_id){
+                $query->size        = implode(",",$request->size_id);
+            }
             $query->name        = $request->name;
             $query->purchase_price  = $request->purchase_price;
             $query->sale_price      = $request->sale_price;
