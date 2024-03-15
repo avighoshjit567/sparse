@@ -138,7 +138,7 @@ class WebsiteController extends Controller
         $Categories = Category::orderBy('id', 'ASC')->take(8)->get();
         $Sliders = Slider::query()->orderBy('position', 'asc')->get();
         $NewArrivals = Product::where('status','Active')->orderBy('id','DESC')->take(4)->get();
-        $AllProducts = Product::where('status','Active')->orderBy('id','DESC')->skip(4)->take(8)->get();
+        $AllProducts = Product::where('status','Active')->orderBy('id','DESC')->skip(4)->take(40)->get();
     	return view('website.index',compact('Sliders','Categories','NewArrivals','AllProducts'));
     }
     // Function for login
