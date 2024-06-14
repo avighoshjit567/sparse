@@ -10,9 +10,9 @@
 					<li>
 						<a href="{{ route('checkout') }}">Checkout</a>
 					</li>
-					{{-- <li class="disabled">
-						<a href="cart.html">Order Complete</a>
-					</li> --}}
+					<li class="disabled">
+						<a href="#">Order Complete</a>
+					</li>
 				</ul>
 
 				<div class="row">
@@ -23,6 +23,7 @@
 									<tr>
 										<th class="thumbnail-col"></th>
 										<th class="product-col">Product</th>
+										<th class="size-col">Size</th>
 										<th class="price-col">Price</th>
 										<th class="qty-col">Quantity</th>
 										<th class="text-right">Subtotal</th>
@@ -36,7 +37,7 @@
                                         <tr class="product-row">
                                             <td>
                                                 <figure class="product-image-container">
-                                                    <a href="product.html" class="product-image">
+                                                    <a href="#" class="product-image">
                                                         <img src="{{ URL::asset($details['image']) }}" alt="product">
                                                     </a>
 
@@ -45,8 +46,11 @@
                                             </td>
                                             <td class="product-col">
                                                 <h5 class="product-title">
-                                                    <a href="product.html">{{ $details['name'] }}</a>
+                                                    <a href="#">{{ $details['name'] }}</a>
                                                 </h5>
+                                            </td>
+                                            <td class="size-col">
+                                                {{ $details['size_name'] }}
                                             </td>
                                             <td>৳{{ $details['price'] }}</td>
                                             <td>

@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="box-title">Product</h5>
-                    <button type="button" class="btn btn-primary btn-sm mb-10 UserAddButton">Product Add</button>
+                    <button type="button" class="btn btn-primary btn-sm mb-10" onclick="window.location.href='{{route('product.add')}}'">Product Add</button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -166,6 +166,7 @@
                                         @enderror
                                     </div>
                                 </div>
+                                
                             </div>
 
                         </div>

@@ -11,9 +11,9 @@
                     <li class="active">
                         <a href="{{ route('checkout') }}">Checkout</a>
                     </li>
-                    {{-- <li class="disabled">
-                        <a href="#">Order Complete</a>
-                    </li> --}}
+                    <li class="disabled">
+						<a href="#">Order Complete</a>
+					</li>
                 </ul>
 
                 <div class="login-form-container">
@@ -56,7 +56,7 @@
                                                 me</label>
                                         </div>
 
-                                        <a href="forgot-password.html" class="forget-password">Lost your password?</a>
+                                        <a href="#" class="forget-password">Lost your password?</a>
                                     </div>
                                 </form>
                             </div>
@@ -71,12 +71,12 @@
                         <ul class="checkout-steps">
                             <li>
                                 <h2 class="step-title">Billing details</h2>
-                                @if (session('message'))
+                                {{-- @if (session('message'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ session('message') }}</strong>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
-                                @endif
+                                @endif --}}
                                 @if (session('error'))
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <strong>{{ session('message') }}</strong>
@@ -100,18 +100,18 @@
                                                 <input type="text" class="form-control" name="mobile" placeholder="Phone*" required />
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        {{-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Email address
                                                     <abbr class="required" title="required">*</abbr></label>
                                                 <input type="email" name="email" class="form-control" required />
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
 
-                                    <input type="checkbox" class="" name="createAccount" id="ifCreateAccount" onclick="ifCreateAccountFunction()" />
-                                    <label>Create an account?</label>
+                                    {{-- <input type="checkbox" class="" name="createAccount" id="ifCreateAccount" onclick="ifCreateAccountFunction()" />
+                                    <label>Create an account?</label> --}}
 
 
                                     {{-- <div class="form-group mb-1">
@@ -122,16 +122,16 @@
                                         </div>
                                     </div> --}}
 
-                                    <div id="pwd" class="">
+                                    {{-- <div id="pwd" class="">
                                         <div class="form-group">
                                             <label>Create account password
                                                 <abbr class="required" title="required">*</abbr></label>
                                             <input type="password" placeholder="Password" name="password" class="form-control"/>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
 
-                                    <div class="form-group ">
+                                    {{-- <div class="form-group ">
                                         <label><strong>Shipping Address</strong></label>
                                         <div class="select-custom">
                                             <select class="form-control form-control-sm" name="division" id="division">
@@ -157,18 +157,19 @@
 
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group ">
+                                        <label>Adress <abbr class="required" title="required">*</abbr></label>
                                         <input type="text" class="form-control form-control-sm" name="address"
                                             placeholder="Adress*">
                                     </div>
 
                                     <div class="form-group">
                                         <label class="order-comments">Order notes (optional)</label>
-                                        <textarea class="form-control" name="note" placeholder="Notes about your order, e.g. special notes for delivery." required></textarea>
+                                        <textarea class="form-control" name="note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                                     </div>
-
+                                    <input class="form-check-input " type="hidden" name="shipping_charge" value="{{$shipping}}">
                                     <button type="submit" class="btn btn-dark btn-place-order">
                                         Place order
                                     </button>
@@ -176,7 +177,7 @@
                                         Return to Cart
                                     </button> --}}
                                     {{-- <a href="{{ route('cart') }}">Return to Cart</a> --}}
-                                </form>
+
                             </li>
                         </ul>
                     </div>
@@ -189,19 +190,21 @@
                             <table class="table table-mini-cart">
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Product</th>
+                                        <th colspan="2">Product </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (session('cart'))
                                         @foreach (session('cart') as $id => $details)
+                                            <input type="hidden" class="unique_product_id" value="{{ $details['product_id'] }}">
                                             @php $total += $details['price'] * $details['quantity'] @endphp
                                             <tr>
                                                 <td class="product-col">
                                                     <h3 class="product-title">
-                                                        {{ $details['name'] }} ×
+                                                        {{ $details['name'] }} ({{ $details['size_name'] }}) ×
                                                         <span class="product-qty">{{ $details['quantity'] }}</span>
                                                     </h3>
+
                                                 </td>
 
                                                 <td class="price-col">
@@ -238,7 +241,7 @@
 													<label class="custom-control-label">Outside Dhaka <span id="shippingCharge" style="float: right;font-size: 15px;">৳{{$shipping}}</span></label>
 												</div><!-- End .custom-checkbox -->
 											</div>
-                                            <input class="form-check-input " type="hidden" name="shipping_charge" value="{{$shipping}}">
+
                                         </td>
 
                                     </tr>
@@ -248,7 +251,7 @@
                                             <h4>Total</h4>
                                         </td>
                                         <td>
-                                            <b class="total-price"><span>৳{{ $total +$shipping }}</span></b>
+                                            <b class="total-price"><span>৳{{ $total + $shipping }}</span></b>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -262,7 +265,7 @@
                                     </p>
                                 </div>
                             </div>
-
+                            </form>
                             {{-- <button type="submit" class="btn btn-dark btn-place-order">
                                 Place order
                             </button> --}}

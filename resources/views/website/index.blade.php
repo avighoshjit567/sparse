@@ -108,9 +108,9 @@
 
             <!-- Featured Product Sections -->
             <div class="col-lg-12">
-                <h2 class="section-title heading-border ls-20 border-0">New Arrivals</h2>
+                {{-- <h2 class="section-title heading-border ls-20 border-0">New Arrivals</h2> --}}
 
-                <div class="row">
+                {{-- <div class="row">
                     @foreach ($NewArrivals as $key=> $NewArrival)
                     @php
                         $Category = App\Models\Category::where('id',$NewArrival->category_id)->first();
@@ -137,10 +137,6 @@
                                 </a>
                                 @endif
 
-                                {{-- <div class="label-group">
-                                                <div class="product-label label-hot">HOT</div>
-                                                <div class="product-label label-sale">-20%</div>
-                                            </div> --}}
                             </figure>
 
                             <div class="product-details">
@@ -154,15 +150,7 @@
                                     <a href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $NewArrival->id }}">{{ $NewArrival->name }}</a>
                                 </h3>
 
-                                {{-- <div class="ratings-container">
-                                                <div class="product-ratings">
-                                                    <span class="ratings" style="width:75%"></span>
-                                                    <!-- End .ratings -->
-                                                    <span class="tooltiptext tooltip-top"></span>
-                                                </div>
-                                                <!-- End .product-ratings -->
-                                            </div> --}}
-                                <!-- End .product-container -->
+
 
                                 <div class="price-box">
                                     @if($NewArrival->discount_amount)
@@ -172,26 +160,27 @@
                                     <span class="product-price">৳{{ $NewArrival->sale_price }}</span>
                                     @endif
                                 </div>
-                                <!-- End .price-box -->
+
 
                                 <div class="product-action">
-                                    {{-- <a href="wishlist.html" class="btn-icon-wish" title="wishlist"><i
-                                                        class="icon-heart"></i></a>
-                                                <a href="product.html" class="btn-icon btn-add-cart"><i
-                                                        class="fa fa-arrow-right"></i><span>SELECT
-                                                        OPTIONS</span></a> --}}
+
+                                    @if($NewArrival->size)
+                                    <a href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $NewArrival->id }}" class="btn-icon btn-add-cart" data-id="{{ $NewArrival->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
+                                    <a href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $NewArrival->id }}" class="btn-icon btn-add-cart" data-id="{{ $NewArrival->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
+                                    @else
                                     <a href="javascript:void(0);" class="btn-icon btn-add-cart add-to-cart" data-id="{{ $NewArrival->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
                                     <a href="javascript:void(0);" class="btn-icon btn-add-cart buy-now" data-id="{{ $NewArrival->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
-                                    {{-- <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a> --}}
+                                    @endif
+
                                 </div>
                             </div>
-                            <!-- End .product-details -->
+
                         </div>
                     </div>
                     @endforeach
-                    <!-- End .col-sm-4 -->
 
-                </div>
+
+                </div> --}}
                 <!-- End .row -->
                 <h2 class="section-title heading-border ls-20 border-0">All Products</h2>
 
@@ -265,8 +254,13 @@
                                     <a href="product.html" class="btn-icon btn-add-cart"><i
                                             class="fa fa-arrow-right"></i><span>SELECT
                                             OPTIONS</span></a> --}}
+                                    @if($AllProduct->size)
+                                    <a href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $AllProduct->id }}" class="btn-icon btn-add-cart" data-id="{{ $AllProduct->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
+                                    <a href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $AllProduct->id }}" class="btn-icon btn-add-cart" data-id="{{ $AllProduct->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
+                                    @else
                                     <a href="javascript:void(0)" class="btn-icon btn-add-cart add-to-cart" data-id="{{ $AllProduct->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
                                     <a href="javascript:void(0)" class="btn-icon btn-add-cart buy-now" data-id="{{ $AllProduct->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
+                                    @endif
                                     {{-- <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a> --}}
                                 </div>
                             </div>
@@ -276,8 +270,21 @@
                     @endforeach
                     <!-- End .col-sm-4 -->
 
+                    <div class="">
+                        {{-- {!! $AllProducts->links() !!} --}}
+                    </div>
+
+
                 </div>
                 <!-- End .row -->
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                {!! $AllProducts->links() !!}
+                            </li>
+
+                        </ul>
+                    </nav>
 
 
                 <hr class="mt-1 mb-3 pb-2">

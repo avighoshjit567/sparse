@@ -28,6 +28,9 @@
                     <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">Order</span><i class="arrow la la-angle-right"></i></a>
                         <ul class="nav-2-level">
                             <li><a href="{{ route('order-list') }}">Order List</a></li>
+                            <li><a href="{{ route('order-details-list') }}">Order Details List</a></li>
+                            <li><a href="{{ route('delivered-order-list') }}">Delivered Order List</a></li>
+                            <li><a href="{{ route('cancelled-order-list') }}">Cancelled Order List</a></li>
                         </ul>
                     </li>
                 </ul>

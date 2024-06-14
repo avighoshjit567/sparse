@@ -9,13 +9,20 @@
 
     <meta name="keywords" content="HTML5 Template" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="Porto - Bootstrap eCommerce Template">
-    <meta name="author" content="SW-THEMES">
+    <meta name="description" content="Sparse Sparsebd Sparse Gadget Iphone cover in bangladesh">
+    <meta name="author" content="Pranto  Saha">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ URL::to('public/assets/images/logo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ URL::to('public/assets/images/favicon.png') }}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TM6WG4HN');</script>
+    <!-- End Google Tag Manager -->
 
     <script>
         WebFontConfig = {
@@ -155,13 +162,44 @@
             })
         });
 
-        $(".add-to-cart").click(function(e) {
+        $(".add-to-cart-two").click(function(e) {
             var id = $(this).data('id');
+            var size_id = $('#size_id').val();
+            if(size_id == ''){
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.error('Please Choose Model For Add To Cart');
+                return false;
+            }
             // alert(id);
-            var url = '{{ route('add.to.cart', ':id') }}';
+            //var url = '{{ route('add.to.cart', ':id') }}';
+            var url = '{{ route('add.to.cart.two', [':id', ':size_id']) }}';
+            url = url.replace(':id', id).replace(':size_id', size_id);
             $.ajax({
                 type: "GET"
-                , url: url.replace(':id', id)
+                , url: url
+                , success: function(response) {
+                    console.log(response);
+                    toastr.options.positionClass = 'toast-bottom-right';
+                    if (response == "success") {
+                        toastr.success('Cart Added Successfull.');
+                    } else {
+                        toastr.error('This status has been changed to Inactive.');
+                    }
+                    cartCheckTwo();
+                }
+            });
+        });
+
+        $(".add-to-cart").click(function(e) {
+            var id = $(this).data('id');
+
+            // alert(id);
+            var url = '{{ route('add.to.cart', ':id') }}';
+            //var url = '{{ route('add.to.cart', [':id', ':size_id']) }}';
+            url = url.replace(':id', id);
+            $.ajax({
+                type: "GET"
+                , url: url
                 , success: function(response) {
                     console.log(response);
                     toastr.options.positionClass = 'toast-bottom-right';
@@ -177,12 +215,14 @@
 
         $(".buy-now").click(function(e) {
             var id = $(this).data('id');
-            // alert(id);
+
             let loc = window.location.origin;
             var url = '{{ route('add.to.cart', ':id') }}';
+            //var url = '{{ route('add.to.cart', [':id', ':size_id']) }}';
+            url = url.replace(':id', id);
             $.ajax({
                 type: "GET"
-                , url: url.replace(':id', id)
+                , url: url
                 , success: function(response) {
                     console.log(response);
                     toastr.options.positionClass = 'toast-bottom-right';
@@ -193,6 +233,35 @@
                         toastr.error('This status has been changed to Inactive.');
                     }
                     cartCheck();
+                }
+            });
+        });
+
+        $(".buy-now-two").click(function(e) {
+            var id = $(this).data('id');
+            var size_id = $('#size_id').val();
+            if(size_id == ''){
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.error('Please Choose Model For Add To Cart');
+                return false;
+            }
+            let loc = window.location.origin;
+            //var url = '{{ route('add.to.cart', ':id') }}';
+            var url = '{{ route('add.to.cart.two', [':id', ':size_id']) }}';
+            url = url.replace(':id', id).replace(':size_id', size_id);
+            $.ajax({
+                type: "GET"
+                , url: url
+                , success: function(response) {
+                    console.log(response);
+                    toastr.options.positionClass = 'toast-bottom-right';
+                    if (response == "success") {
+                        toastr.success('Cart Added Successfull.');
+                        window.location.href = '{{ route("cart") }}';
+                    } else {
+                        toastr.error('This status has been changed to Inactive.');
+                    }
+                    cartCheckTwo();
                 }
             });
         });
@@ -220,7 +289,39 @@
                     let loc = window.location.origin;
                     total = total + (Number(obj[i]['quantity']) * Number(obj[i]['price']));
 
-                    appendString += '<div class="product-details"><h4 class="product-title"><a href="#">' + obj[i]['name'] + '</a></h4><span class="cart-product-info"><span class="cart-product-qty">' + obj[i]['quantity'] + '</span> × ৳' + obj[i]['price'] + '</span></div><figure class="product-image-container"><a href="#" class="product-image"><img src="{{ asset('') }}/' + obj[i]['image'] + '" alt="product" width="80" height="80"></a><a href="javascript:void(0)" class="btn-remove cart_remove" title="Remove Product"><span>×</span></a></figure></div>';
+                    appendString += '<div class="product-details"><h4 class="product-title"><a href="#">' + obj[i]['name'] + '</a></h4><span class="cart-product-info"><span class="cart-product-qty">' + obj[i]['quantity'] + '</span> × ৳' + obj[i]['price'] + '</span></div><figure class="product-image-container"><a href="#" class="product-image"><img src="{{ asset('') }}/' + obj[i]['image'] + '" alt="product" width="80" height="80"></a><a href="javascript:void(0)" class="btn-remove cart_remove" data-id="'+i+'" title="Remove Product"><span>×</span></a></figure></div>';
+
+                }
+                $('#cart-all-item').empty().append(appendString);
+                $('#cart-total-qty').html(data.total);
+                $('#cart-total').html(total);
+            });
+        }
+
+        function cartCheckTwo() {
+
+            // alert("Load was performed.");
+            $.get("{{ route('get.total.cart') }}", function(data) {
+                // $(".result").html(data);
+                // console.log(data);
+                // $('#cart-all-item').html(data.jobs);
+                var appendString = "";
+
+                // var obj = JSON.parse(data);
+                var obj = Object.values(data.jobs);
+                var total = 0;
+                // console.log( obj);
+                // for(var i in obj)
+                //     res.push(obj[i]);
+
+                // down.innerHTML = "Array of values - ["
+                //                 + res + "]";
+                for (var i = 0; i < obj.length; i++) {
+                    console.log(obj[i]);
+                    let loc = window.location.origin;
+                    total = total + (Number(obj[i]['quantity']) * Number(obj[i]['price']));
+
+                    appendString += '<div class="product-details"><h4 class="product-title"><a href="#">' + obj[i]['name'] + '<br>'+ obj[i]['size_name'] + '</a></h4><span class="cart-product-info"><span class="cart-product-qty">' + obj[i]['quantity'] + '</span> × ৳' + obj[i]['price'] + '</span></div><figure class="product-image-container"><a href="#" class="product-image"><img src="{{ asset('') }}/' + obj[i]['image'] + '" alt="product" width="80" height="80"></a><a href="javascript:void(0)" class="btn-remove cart_remove" data-id="'+i+'" title="Remove Product"><span>×</span></a></figure></div>';
 
                 }
                 $('#cart-all-item').empty().append(appendString);

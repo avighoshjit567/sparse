@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Models\Slider;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Size;
 use App\Models\ProductImages;
 use App\Models\Divisions;
 use App\Models\Districts;
@@ -25,9 +26,51 @@ class WebsiteController extends Controller
      * @return response()
      */
 
+    public function addToCartTwo($id,$size_id=null)
+    {
+
+        $product = Product::findOrFail($id);
+        $size = Size::findOrFail($size_id);
+        $AccountItemImageQuery = ProductImages::where('product_id',$product->id)->orderBy('id','ASC')->first();
+        if($AccountItemImageQuery){
+            $images = $AccountItemImageQuery->image;
+        }else{
+            $images = '';
+        }
+        $cart = session()->get('cart', []);
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            if($product->discount_amount){
+                $product_price = $product->sale_price - $product->discount_amount;
+            }else{
+                $product_price = $product->sale_price;
+            }
+
+            $cart[$id] = [
+
+                "name" => $product->name,
+                "product_id" => $product->id,
+                "size_id" => $size_id,
+                "size_name" => $size->name,
+                "quantity" => 1,
+                "price" => $product_price,
+                "image" => $images
+
+            ];
+
+        }
+
+        session()->put('cart', $cart);
+        return 'success';
+        // return $cart;
+    }
+
     public function addToCart($id)
     {
+
         $product = Product::findOrFail($id);
+        //$size = Size::findOrFail($size_id);
         $AccountItemImageQuery = ProductImages::where('product_id',$product->id)->orderBy('id','ASC')->first();
         if($AccountItemImageQuery){
             $images = $AccountItemImageQuery->image;
@@ -49,6 +92,8 @@ class WebsiteController extends Controller
                 "name" => $product->name,
                 "product_id" => $product->id,
                 "quantity" => 1,
+                "size_id" => "",
+                "size_name" => "",
                 "price" => $product_price,
                 "image" => $images
 
@@ -129,6 +174,7 @@ class WebsiteController extends Controller
         // {
         //     $User = User::where('id',Auth::user()->id)->first();
         // }
+        // dd($cart);
         return view('website.checkout',compact('cart','Districts','Divisions','Upazilas','shipping'));
     }
 
@@ -137,9 +183,9 @@ class WebsiteController extends Controller
     {
         $Categories = Category::orderBy('id', 'ASC')->take(8)->get();
         $Sliders = Slider::query()->orderBy('position', 'asc')->get();
-        $NewArrivals = Product::where('status','Active')->orderBy('id','DESC')->take(4)->get();
-        $AllProducts = Product::where('status','Active')->orderBy('id','DESC')->skip(4)->take(40)->get();
-    	return view('website.index',compact('Sliders','Categories','NewArrivals','AllProducts'));
+        // $NewArrivals = Product::where('status','Active')->orderBy('id','DESC')->take(4)->get();
+        $AllProducts = Product::where('status','Active')->orderBy('id','DESC')->paginate(24);
+    	return view('website.index',compact('Sliders','Categories','AllProducts'));
     }
     // Function for login
     public function login()
@@ -254,9 +300,10 @@ class WebsiteController extends Controller
     public function ProductDetails($name,$id)
     {
         $Products = Product::where('id',$id)->first();
+        $explodes = explode(",",$Products->size);
         $Related_products = Product::where('category_id',$Products->category_id)->whereNotIn('id',[$id])->get();
         $ProductImages = ProductImages::where('product_id',$Products->id)->get();
-        return view('website.product_details',compact('Products','Related_products','ProductImages'));
+        return view('website.product_details',compact('Products','Related_products','ProductImages','explodes'));
     }
 
     public function DistrictGet(Request $request)
@@ -285,6 +332,21 @@ class WebsiteController extends Controller
         $shipping = $request->amount;
         session()->put('shippingCharge', $shipping);
         session()->flash('success', 'Cart updated successfully');
+    }
+
+    public function SearchProcess(Request $request)
+    {
+        // dd(11);
+        $Product = Product::where('status','Active')->where('name', 'LIKE', "%{$request->keyword}%");
+        if ($request->category_id != 'All') {
+            $Products = $Product->where('category_id', $request->category_id)->get();
+            $ProductsCount = $Product->where('category_id', $request->category_id)->count();
+        } else {
+            $Products = $Product->get();
+            $ProductsCount = $Product->count();
+        }
+
+        return view('website.search_result', compact('Products', 'ProductsCount'));
     }
 
 

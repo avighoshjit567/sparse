@@ -11,6 +11,30 @@
                     {{-- <button type="button" class="btn btn-primary btn-sm mb-10 UserAddButton">Category Add</button> --}}
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group mb-4">
+                                <label for="exampleInputEmail1"> Order Date </label>
+                                <input class="form-control updateTable" type="date" name="order_date" id="order_date">
+                                @error('order_date')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        {{-- <div class="col-lg-3">
+                            <div class="form-group mb-4">
+                                <label for="exampleInputEmail1">Type <span class="text-danger">*</span></label>
+                                <select class="form-control updateTable" name="type" id="type" style="width:100%;">
+                                    <option value="">Select Type</option>
+                                    <option value="Office Visit Appointment">Office Visit Appointment</option>
+                                    <option value="Country Admin Appointment">Country Admin Appointment</option>
+                                </select>
+                                @error('type')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div> --}}
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered w-100 nowrap" id="dt-scroll-horizonal" style="width:100%">
 
@@ -105,7 +129,8 @@
                 , type: 'GET'
                 , cache: false
                 , data: function(d) {
-
+                    d.order_date = $("#order_date").val();
+                    d.status = "Processing";
 
                 }
             }
@@ -121,34 +146,19 @@
                 },
                 {
                     title: 'Name'
-                    , data: 'name'
-                    , name: 'name'
+                    , data: 'customer'
+                    , name: 'customer'
                 },
-                {
-                    title: 'Mobile'
-                    , data: 'mobile'
-                    , name: 'mobile'
-                },
-                {
-                    title: 'E-mail'
-                    , data: 'email'
-                    , name: 'email'
-                },
-                {
-                    title: 'District'
-                    , data: 'district'
-                    , name: 'district'
-                },
-                {
-                    title: 'Upazila'
-                    , data: 'upazila'
-                    , name: 'upazila'
-                },
-                {
-                    title: 'Address'
-                    , data: 'address'
-                    , name: 'address'
-                },
+                //{
+                    //title: 'Mobile'
+                    //, data: 'mobile'
+                    //, name: 'mobile'
+                //},
+                //{
+                   // title: 'Address'
+                   // , data: 'address'
+                  //  , name: 'address'
+                //},
                 {
                     title: 'Order Note'
                     , data: 'order_note'
@@ -177,6 +187,10 @@
             ]
         });
 
+        $(document).on('change','.updateTable',function () {
+			$('#dt-scroll-horizonal').DataTable().draw(true);
+		});
+
         $(document).on('click', '.tableDelete', function() {
             swal({
                 title: 'Are you sure?'
@@ -195,7 +209,7 @@
                         }
                         , method: 'POST'
                         , dataType: 'json'
-                        , url: "{{ route('category.insert') }}"
+                        , url: "{{ route('order-delete') }}"
                         , success: function(responseText) {
                             // formSuccess(responseText, statusText, xhr, $form);
                             swal("Congratulations!", responseText.message, "success");
@@ -214,20 +228,22 @@
             $("#UserAddUpdate").trigger("reset");
         });
 
-        $(document).on('click', '.tableEdit', function() {
+        $(document).on('click', '.updateOrderStatus', function () {
             let Id = $(this).data('id');
-            $('#hidden-id').removeAttr("disabled");
-            $('#hidden-id').val(Id);
+            let Status = $(this).data('status');
             $(this).ajaxSubmit({
+                error: formError,
                 data: {
-                    "id": Id
-                }
-                , dataType: 'json'
-                , method: 'GET'
-                , url: "{{ route('category.edit') }}"
-                , success: function(responseText) {
-                    $('input[name^="name"]').val(responseText.data.name);
-                    $("#UserAdd").modal('show');
+                    "id": Id,
+                    "status": Status
+                },
+                method: 'POST',
+                dataType: 'json',
+                url: "{{route('processing_order.update')}}",
+                success: function (responseText) {
+
+                    swal("Congratulations!", responseText.message, "success");
+                    $('#dt-scroll-horizonal').DataTable().draw(true);
                 }
             });
         });

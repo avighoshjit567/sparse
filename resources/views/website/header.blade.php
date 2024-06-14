@@ -74,38 +74,23 @@
                         </a>
                     </div>
                     <!-- End .header-left -->
+                    @php
+                        $Categories = App\Models\Category::get();
+                    @endphp
 
                     <div class="header-right w-lg-max pl-2">
                         <div class="header-search header-icon header-search-inline header-search-category w-lg-max">
-                            <a href="#" class="search-toggle" role="button"><i class="icon-search-3"></i></a>
-                            <form action="#" method="get">
+                            {{-- <a href="" method="" class="search-toggle" role="button"><i class="icon-search-3"></i></a> --}}
+                            <form action="{{ route('search-process') }}" method="post">
+                                @csrf
                                 <div class="header-search-wrapper">
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search..." required>
+                                    <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Search..." required>
                                     <div class="select-custom">
-<!--                                         <select id="cat" name="cat">
-                                            <option value="">All Categories</option>
-                                            <option value="4">Fashion</option>
-                                            <option value="12">- Women</option>
-                                            <option value="13">- Men</option>
-                                            <option value="66">- Jewellery</option>
-                                            <option value="67">- Kids Fashion</option>
-                                            <option value="5">Electronics</option>
-                                            <option value="21">- Smart TVs</option>
-                                            <option value="22">- Cameras</option>
-                                            <option value="63">- Games</option>
-                                            <option value="7">Home &amp; Garden</option>
-                                            <option value="11">Motors</option>
-                                            <option value="31">- Cars and Trucks</option>
-                                            <option value="32">- Motorcycles &amp; Powersports</option>
-                                            <option value="33">- Parts &amp; Accessories</option>
-                                            <option value="34">- Boats</option>
-                                            <option value="57">- Auto Tools &amp; Supplies</option>
-                                        </select> -->
-                                        <select id="cat" name="cat">
-                                            <option value="">All Categories</option>
-                                            <option value="4">Home Appliences</option>
-                                            <option value="12">Smart Phone</option>
-                                            <option value="12">Smart Watch</option>
+                                        <select id="cat" name="category_id">
+                                            <option value="All">All Categories</option>
+                                            @foreach ($Categories as $Category)
+                                                <option value="{{ $Category->id }}">{{ $Category->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <!-- End .select-custom -->
@@ -147,14 +132,17 @@
                                                     @foreach (session('cart') as $id => $details)
                                                         <div class="product-details">
                                                             <h4 class="product-title">
-                                                                <a href="demo1-product.html">{{ $details['name'] }}</a>
+                                                                <a href="#">{{ $details['name'] }}</a> <br>
+                                                                @if($details['size_name'])
+                                                                    <a href="#">Model: {{ $details['size_name'] }}</a>
+                                                                @endif
                                                             </h4>
                                                             <span class="cart-product-info">
                                                                 <span class="cart-product-qty">{{ $details['quantity'] }}</span> × ৳{{ $details['price'] }}
                                                             </span>
                                                         </div>
                                                         <figure class="product-image-container">
-                                                            <a href="demo1-product.html" class="product-image">
+                                                            <a href="#" class="product-image">
                                                                 <img src="{{ URL::asset($details['image']) }}" alt="product" width="80" height="80">
                                                             </a>
                                                             <a href="javascript:void(0)" class="btn-remove cart_remove" data-id="{{ $id }}" title="Remove Product"><span>×</span></a>

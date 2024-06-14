@@ -18,11 +18,22 @@ class ProductController extends Controller
 {
     public function product()
     {
+
         $Categories = Category::where('status','Active')->get();
         $Brands = Brand::where('status','Active')->get();
         $Units = Unit::where('status','Active')->get();
         $Sizes = Size::where('status','Active')->get();
         return view('products.product',compact('Categories','Brands','Units','Sizes'));
+    }
+
+    public function AddProduct()
+    {
+        $query = null;
+        $Categories = Category::where('status','Active')->get();
+        $Brands = Brand::where('status','Active')->get();
+        $Units = Unit::where('status','Active')->get();
+        $Sizes = Size::where('status','Active')->get();
+        return view('products.add_product',compact('Categories','Brands','Units','Sizes','query'));
     }
 
     public function ProductInsert(Request $request)
@@ -98,6 +109,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => "success",
             'message' => $message,
+            'list_url' => route('product'),
         ]);
     }
 
@@ -137,7 +149,8 @@ class ProductController extends Controller
         })
         ->addColumn('action', function ($data){
             $htmlData='';
-            $htmlData .= '<a href="javascript:void(0)" data-id="'.$data->id.'" class="btn btn-info btn-sm tableEdit"><i class="fa fa-edit"></i></a>&nbsp;';
+            $htmlData .= '<a href="' . route('product.images', [$data->id]) . '" data-id="'.$data->id.'" class="btn btn-info btn-sm"><i class="fa fa-list"></i></a>&nbsp;';
+            $htmlData .= '<a href="' . route('product.edit', [$data->id]) . '" data-id="'.$data->id.'" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>&nbsp;';
             $htmlData .='<a href="javascript:void(0)" data-id="'.$data->id.'" class="btn btn-danger btn-sm tableDelete"><i class="fa fa-trash"></i></a>';
             return $htmlData;
         })
@@ -149,6 +162,107 @@ class ProductController extends Controller
     {
         $query = Product::find($request->id);
         // $imageQuery = Product::find($request->id);
+        // if (!$query) {
+        //     return response()->json([
+        //     'status' => 'error',
+        //     'message' => 'Not Found, Please Try Again...',
+        //     ], 422);
+        // }
+
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $query,
+        // ]);
+        $Categories = Category::where('status','Active')->get();
+        $Brands = Brand::where('status','Active')->get();
+        $Units = Unit::where('status','Active')->get();
+        $Sizes = Size::where('status','Active')->get();
+        return view('products.add_product',compact('Categories','Brands','Units','Sizes','query'));
+    }
+
+    public function ProductImages($id)
+    {
+        $product_id = $id;
+        return view('products.product_images',compact('product_id'));
+    }
+
+    public function ProductImagesData(Request $request)
+    {
+        $Product = ProductImages::orderBy('id','asc')->where('product_id',$request->product_id)->get();
+
+        $this->i=1;
+        return DataTables::of($Product)
+        ->addColumn('image', function ($data){
+            $url = asset($data->image);
+            $image = '<img src="'.$url.'" style="height:80px;width:80px;">';
+            return $image;
+        })
+        ->addColumn('id', function ($data){
+            return $this->i++;
+        })
+        ->addColumn('action', function ($data){
+            $htmlData='';
+            // $htmlData .= '<a href="' . route('product.images', [$data->id]) . '" data-id="'.$data->id.'" class="btn btn-info btn-sm"><i class="fa fa-list"></i></a>&nbsp;';
+            $htmlData .= '<a href="javascript:void(0)" data-id="'.$data->id.'" class="btn btn-info btn-sm tableEdit"><i class="fa fa-edit"></i></a>&nbsp;';
+            $htmlData .='<a href="javascript:void(0)" data-id="'.$data->id.'" class="btn btn-danger btn-sm tableDelete"><i class="fa fa-trash"></i></a>';
+            return $htmlData;
+        })
+        ->rawColumns(['image','action'])
+        ->toJson();
+    }
+
+    public function ProductImagesDelete(Request $request)
+    {
+        if($request->has('delete')){
+            $query = ProductImages::find($request->delete);
+            $query->delete();
+            $message = 'Product Images Deleted Successfully!';
+        }
+        return response()->json([
+            'status' => "success",
+            'message' => $message,
+        ]);
+    }
+
+    public function ProductImagesUpdate(Request $request)
+    {
+        if($request->has('id')){
+            $query = ProductImages::find($request->id);
+            $message = 'Product Image Updated Successfully!';
+
+            if(!$query){
+                return response()->json([
+                'status' => "error",
+                'message' => "Not Found, Please Try Again..."
+                ],422);
+            }
+        }else{
+            $query = new ProductImages;
+            $query->user_id = Auth::id();
+        }
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image_name          = Str::random(10).time();
+            $ext                 = strtolower($image->getClientOriginalExtension());
+            $image_full_name     = $image_name.'.'.$ext;
+            $upload_path         = "public/images/product_image/";
+            $image_url           = $upload_path.$image_full_name;
+            $success             = $image->move($upload_path,$image_full_name);
+            $query->image   = $image_url;
+
+        }
+        $query->save();
+
+        return response()->json([
+            'status' => "success",
+            'message' => $message,
+        ]);
+    }
+
+    public function ProductImagesEdit(Request $request)
+    {
+        $query = ProductImages::find($request->id);
         if (!$query) {
             return response()->json([
             'status' => 'error',
@@ -157,8 +271,8 @@ class ProductController extends Controller
         }
 
         return response()->json([
-        'status' => 'success',
-        'data' => $query,
+            'status' => 'success',
+            'data' => $query,
         ]);
     }
 }

@@ -50,7 +50,7 @@
                 <!-- End .product-single-gallery -->
 
                 <div class="col-lg-7 col-md-6 product-single-details">
-                    <h1 class="product-title">{{ $Products->name }}</h1>
+                    <h1 class="product-title unique-product-name">{{ $Products->name }}</h1>
 
                     {{-- <div class="ratings-container">
                         <div class="product-ratings">
@@ -68,9 +68,9 @@
                     <div class="price-box">
                         @if($Products->discount_amount)
                             <span class="old-price">৳{{ $Products->sale_price }}</span>
-                            <span class="product-price">৳{{ number_format($Products->sale_price - $Products->discount_amount,2) }}</span>
+                            <span class="product-price unique-product-price">৳{{ number_format($Products->sale_price - $Products->discount_amount,2) }}</span>
                         @else
-                            <span class="product-price">৳{{ $Products->sale_price }}</span>
+                            <span class="product-price unique-product-price">৳{{ $Products->sale_price }}</span>
                         @endif
                     </div>
                     <!-- End .price-box -->
@@ -98,10 +98,31 @@
                             <input class="horizontal-quantity form-control" type="text">
                         </div>
                         <!-- End .product-single-qty -->
+                        @if ($Products->size)
+                            <div class="form-group ">
+                                <label><strong>Choose Model</strong></label>
+                                <div class="select-custom">
+                                    <select class="form-control form-control-sm" name="size_id" id="size_id">
+                                        <option value="">Select Model</option>
+                                        @foreach ($explodes as $explode)
+                                            @php
+                                                $sizeQuery = App\Models\Size::where('id',$explode)->first();
+                                            @endphp
+                                            <option value="{{ $explode }}">{{ $sizeQuery->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-dark add-to-cart-two mr-2" data-id="{{ $Products->id }}" title="Add to Cart">Add to
+                            Cart</button>
+                            <button type="button" class="btn btn-dark buy-now-two mr-2" data-id="{{ $Products->id }}" title="Buy now">BUY NOW</button>
+                        @else
 
-                        <a href="javascript:;" class="btn btn-dark add-cart add-to-cart mr-2" data-id="{{ $Products->id }}" title="Add to Cart">Add to
-                            Cart</a>
-                        <a href="javascript:;" class="btn btn-dark buy-now mr-2" data-id="{{ $Products->id }}" title="Buy now">BUY NOW</a>
+                        <button type="button" class="btn btn-dark add-to-cart mr-2" data-id="{{ $Products->id }}" title="Add to Cart">Add to
+                            Cart</button>
+                        <button type="button" class="btn btn-dark buy-now mr-2" data-id="{{ $Products->id }}" title="Buy now">BUY NOW</button>
+
+                        @endif
 
                         <a href="{{ route('cart') }}" class="btn btn-gray view-cart d-none">View cart</a>
                     </div>

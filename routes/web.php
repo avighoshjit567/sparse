@@ -32,7 +32,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
-Route::get('add-to-cart/{id}', [WebsiteController::class, 'addToCart'])->name('add.to.cart');
+Route::get('add-to-cart/{id?}', [WebsiteController::class, 'addToCart'])->name('add.to.cart');
+Route::get('add-to-cart-two/{id?}/{size_id?}', [WebsiteController::class, 'addToCartTwo'])->name('add.to.cart.two');
 Route::get('get/total/cart', [WebsiteController::class, 'getTotalcart'])->name('get.total.cart');
 Route::get('cart', [WebsiteController::class, 'cart'])->name('cart');
 Route::patch('update-cart', [WebsiteController::class, 'update'])->name('update.cart');
@@ -45,8 +46,8 @@ Route::get('upazila_get', [WebsiteController::class, 'UpazilaGet'])->name('upazi
 Route::patch('update_shipping_charge', [WebsiteController::class, 'UpdateShippingCharge'])->name('update.shipping.charge');
 Route::post('web_order_product_add', [OrderController::class, 'WebOrderProductAdd'])->name('web.order.product.add');
 Route::get('order-complete', [OrderController::class, 'OrderComplete'])->name('order.complete');
-Route::get('order-list', [OrderController::class, 'OrderList'])->name('order-list');
-Route::get('order-list-data', [OrderController::class, 'OrderListData'])->name('order-list.Data');
+Route::post('search-process', [WebsiteController::class, 'SearchProcess'])->name('search-process');
+
 
 Route::middleware('auth')->group(function () {
 
@@ -89,9 +90,25 @@ Route::middleware('auth')->group(function () {
     Route::post('size_insert', [AccountItemUnitController::class, 'SizeInsert'])->name('size.insert');
     // Product
     Route::get('product', [ProductController::class, 'product'])->name('product');
+    Route::get('product_add', [ProductController::class, 'AddProduct'])->name('product.add');
     Route::post('product_insert', [ProductController::class, 'ProductInsert'])->name('product.insert');
     Route::get('product_data', [ProductController::class, 'ProductData'])->name('product.data');
-    Route::get('product_edit', [ProductController::class, 'ProductEditData'])->name('product.edit');
+    Route::get('product_edit/{id?}', [ProductController::class, 'ProductEditData'])->name('product.edit');
+    Route::get('product_images/{id?}', [ProductController::class, 'ProductImages'])->name('product.images');
+    Route::get('product_images_data', [ProductController::class, 'ProductImagesData'])->name('product.images.data');
+    Route::post('product_images_delete', [ProductController::class, 'ProductImagesDelete'])->name('product.images.delete');
+    Route::post('product_images_update', [ProductController::class, 'ProductImagesUpdate'])->name('product.images.update');
+    Route::get('product_images_edit', [ProductController::class, 'ProductImagesEdit'])->name('product.images.edit');
+    // Order Module
+    Route::get('order-list', [OrderController::class, 'OrderList'])->name('order-list');
+    Route::get('delivered-order-list', [OrderController::class, 'DeliveredOrderList'])->name('delivered-order-list');
+    Route::get('cancelled-order-list', [OrderController::class, 'CancelOrderList'])->name('cancelled-order-list');
+    Route::post('order-delete', [OrderController::class, 'OrderDelete'])->name('order-delete');
+    Route::get('order-list-data', [OrderController::class, 'OrderListData'])->name('order-list.Data');
+    Route::get('order_invoice/{id?}', [OrderController::class, 'OrderInvoice'])->name('order.invoice');
+    Route::post('processing_order_update', [OrderController::class, 'OrderStatusUpdate'])->name('processing_order.update');
+    Route::get('order-details-list', [OrderController::class, 'OrderDetailsList'])->name('order-details-list');
+    Route::get('order_details_list.Data', [OrderController::class, 'OrderDetailsListData'])->name('order-details-list.Data');
 
 });
 
