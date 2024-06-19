@@ -1,3 +1,4 @@
+
 <header class="header home">
             <div class="header-top bg-primary text-uppercase">
                 <div class="container">
@@ -30,7 +31,7 @@
                     <!-- End .header-left -->
 
                     <div class="header-right header-dropdowns ml-0 ml-sm-auto">
-                        <p class="top-message mb-0 d-none d-sm-block">Welcome To Sparse!</p>
+                        <p class="top-message mb-0 d-none d-sm-block">Welcome To {{ $CompanySetting->business_name }}!</p>
                         <div class="header-dropdown dropdown-expanded mr-3">
                             <a href="#">Links</a>
                             <div class="header-menu">
@@ -50,10 +51,10 @@
                         <span class="separator"></span>
 
                         <div class="social-icons">
-                            <a href="https://www.facebook.com/profile.php?id=100095063290148&mibextid=ZbWKwL" class="social-icon social-facebook icon-facebook ml-0" target="_blank"></a>
-                            <a href="https://api.whatsapp.com/send/?phone=8801581726919&text&app_absent=0" class="social-icon social-facebook fab fa-whatsapp ml-0" target="_blank"></a>
+                            <a href="{{$CompanySetting->facebook}}" class="social-icon social-facebook icon-facebook ml-0" target="_blank"></a>
+                            <a href="{{$CompanySetting->whatsapp}}" class="social-icon social-facebook fab fa-whatsapp ml-0" target="_blank"></a>
                             <!-- <a href="#" class="social-icon social-twitter icon-twitter ml-0" target="_blank"></a> -->
-                            <a href="https://www.instagram.com/_sparse_home?igsh=MXF4angyamxyM3pxdA==" class="social-icon social-instagram icon-instagram ml-0" target="_blank"></a>
+                            <a href="{{$CompanySetting->instagram}}" class="social-icon social-instagram icon-instagram ml-0" target="_blank"></a>
                         </div>
                         <!-- End .social-icons -->
                     </div>
@@ -70,7 +71,8 @@
                             <i class="fas fa-bars"></i>
                         </button>
                         <a href="{{ route('home') }}" class="logo">
-                            <img src="{{ URL::to('public/assets/images/logo.png') }}" width="111" height="44" alt="Sparse Logo">
+                            <img src="{{ URL::to($CompanySetting->logo) }}" width="111" height="44" alt="Sparse Logo">
+                            {{-- <img src="{{ URL::to('public/assets/images/logo.png') }}" width="111" height="44" alt="Sparse Logo"> --}}
                         </a>
                     </div>
                     <!-- End .header-left -->
@@ -103,7 +105,7 @@
 
                         <div class="header-contact d-none d-lg-flex align-items-center pr-xl-5 mr-5 mr-xl-3 ml-5">
                             <i class="icon-phone-2"></i>
-                            <h6 class="pt-1 line-height-1">Call us now<a href="tel:#" class="d-block text-dark ls-10 pt-1">+8801581726919</a></h6>
+                            <h6 class="pt-1 line-height-1">Call us now<a href="tel:#" class="d-block text-dark ls-10 pt-1">{{ $CompanySetting->hotline }}</a></h6>
                         </div>
                         <!-- End .header-contact -->
 

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Size;
+use App\Models\Color;
 use App\Models\ProductImages;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
@@ -33,7 +34,8 @@ class ProductController extends Controller
         $Brands = Brand::where('status','Active')->get();
         $Units = Unit::where('status','Active')->get();
         $Sizes = Size::where('status','Active')->get();
-        return view('products.add_product',compact('Categories','Brands','Units','Sizes','query'));
+        $Colors = Color::where('status','Active')->get();
+        return view('products.add_product',compact('Categories','Brands','Units','Sizes','query','Colors'));
     }
 
     public function ProductInsert(Request $request)
@@ -78,6 +80,9 @@ class ProductController extends Controller
             $query->unit_id     = $request->unit_id;
             if($request->size_id){
                 $query->size        = implode(",",$request->size_id);
+            }
+            if($request->color_id){
+                $query->color        = implode(",",$request->color_id);
             }
             $query->name        = $request->name;
             $query->purchase_price  = $request->purchase_price;
@@ -177,7 +182,10 @@ class ProductController extends Controller
         $Brands = Brand::where('status','Active')->get();
         $Units = Unit::where('status','Active')->get();
         $Sizes = Size::where('status','Active')->get();
-        return view('products.add_product',compact('Categories','Brands','Units','Sizes','query'));
+        $Colors = Color::where('status','Active')->get();
+        $selectedSizes = explode(",", $query->size);
+        $selectedColors = explode(",", $query->color);
+        return view('products.add_product',compact('Categories','Brands','Units','Sizes','query','Colors','selectedSizes','selectedColors'));
     }
 
     public function ProductImages($id)

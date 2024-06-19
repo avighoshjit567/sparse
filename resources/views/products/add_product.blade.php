@@ -48,14 +48,28 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group mb-4">
-                                            <label for="exampleInputEmail1">Size <span class="text-danger">*</span></label>
+                                            <label for="exampleInputEmail1">Size </label>
                                             <select class="form-control" name="size_id[]" id="size_id" style="width:100%;" multiple="">
-                                                <option value="">Select University</option>
+                                                <option value="">Select Size</option>
                                                 @foreach ($Sizes as $Size)
-                                                    <option value="{{ $Size->id }}">{{ $Size->name }}</option>
+                                                    <option value="{{ $Size->id }}" @if($query && $query->size) {{ in_array($Size->id, $selectedSizes) ? 'selected' : '' }} @endif>{{ $Size->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('size_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-4">
+                                            <label for="exampleInputEmail1">Color </label>
+                                            <select class="form-control" name="color_id[]" id="color_id" style="width:100%;" multiple="">
+                                                <option value="">Select Color</option>
+                                                @foreach ($Colors as $Color)
+                                                    <option value="{{ $Color->id }}" @if($query && $query->color) {{ in_array($Color->id, $selectedColors) ? 'selected' : '' }} @endif>{{ $Color->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('color_id')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -178,6 +192,9 @@
 
         $("#size_id").select2({
             placeholder: "Select Size",
+        });
+        $("#color_id").select2({
+            placeholder: "Select Color",
         });
 
         $('#UserAddUpdate').ajaxForm({

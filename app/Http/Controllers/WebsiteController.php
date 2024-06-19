@@ -14,6 +14,7 @@ use App\Models\ProductImages;
 use App\Models\Divisions;
 use App\Models\Districts;
 use App\Models\Upazila;
+use App\Models\CompanySetting;
 use Yajra\Datatables\Datatables;
 use Session;
 
@@ -181,11 +182,12 @@ class WebsiteController extends Controller
     // Function for index
     public function index()
     {
+        $CompanySetting = CompanySetting::first();
         $Categories = Category::orderBy('id', 'ASC')->take(8)->get();
         $Sliders = Slider::query()->orderBy('position', 'asc')->get();
         // $NewArrivals = Product::where('status','Active')->orderBy('id','DESC')->take(4)->get();
-        $AllProducts = Product::where('status','Active')->orderBy('id','DESC')->paginate(24);
-    	return view('website.index',compact('Sliders','Categories','AllProducts'));
+        $AllProducts = Product::where('status','Active')->orderBy('id','DESC')->paginate(25);
+    	return view('website.index',compact('Sliders','Categories','AllProducts','CompanySetting'));
     }
     // Function for login
     public function login()
@@ -293,7 +295,7 @@ class WebsiteController extends Controller
 
     public function CategoryWiseProduct($name,$id)
     {
-        $Products = Product::where('category_id',$id)->get();
+        $Products = Product::where('category_id',$id)->paginate(20);
         return view('website.category_wise_product',compact('Products'));
     }
 

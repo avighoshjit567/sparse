@@ -195,7 +195,7 @@
                     $new_product_name = str_replace(" ","-",$AllProduct->name);
 
                     @endphp
-                    <div class="col-6 col-sm-3">
+                    <div class="col-6 col-sm-4 col-md-3 col-xl-5col">
                         <div class="product-default">
                             <figure>
                                 @if($ProductImageQueryCount > 0)

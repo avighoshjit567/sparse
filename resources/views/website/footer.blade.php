@@ -8,9 +8,10 @@
                             <div class="widget">
                                 <h4 class="widget-title">About Us</h4>
                                 <a href="{{ URL::to('/') }}">
-                                    <img src="{{ URL::to('public/assets/images/logo.png') }}" alt="Logo" class="logo-footer">
+                                    <img src="{{ URL::to($CompanySetting->footer_logo) }}" alt="Logo" class="logo-footer">
+                                    {{-- <img src="{{ URL::to('public/assets/images/logo.png') }}" alt="Logo" class="logo-footer"> --}}
                                 </a>
-                                <p class="m-b-4">Leading Accessories Shop in Bangladesh</p>
+                                <p class="m-b-4">{{$CompanySetting->footer_about_us}}</p>
                                 {{-- <a href="#" class="read-more text-white">read more...</a> --}}
                             </div>
                             <!-- End .widget -->
@@ -22,13 +23,13 @@
                                 <h4 class="widget-title mb-1 pb-1">Contact Info</h4>
                                 <ul class="contact-info m-b-4">
                                     <li>
-                                        <span class="contact-info-label">Address:</span>371 Free School Street Road, Hatirpool, Dhaka
+                                        <span class="contact-info-label">Address:</span>{{$CompanySetting->address}}
                                     </li>
                                     <li>
-                                        <span class="contact-info-label">Phone:</span><a href="tel:+8801581726919">+8801581726919</a>
+                                        <span class="contact-info-label">Phone:</span><a href="tel:{{$CompanySetting->mobile}}">{{$CompanySetting->mobile}}</a>
                                     </li>
                                     <li>
-                                        <span class="contact-info-label">Email:</span> <a href="mailto:prantosaha11111@gmail.com">prantosaha11111@gmail.com</a>
+                                        <span class="contact-info-label">Email:</span> <a href="mailto:{{$CompanySetting->email}}">{{$CompanySetting->email}}</a>
                                     </li>
                                     <li>
                                         <span class="contact-info-label">Working Days/Hours:</span> Sat - Fri / 9:00 AM - 9:00 AM
@@ -36,9 +37,8 @@
                                     </li>
                                 </ul>
                                 <div class="social-icons">
-                                    <a href="https://www.facebook.com/profile.php?id=100095063290148&mibextid=ZbWKwL" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
-                                    <a href="https://api.whatsapp.com/send/?phone=8801999968416&text&app_absent=0" class="social-icon social-whatsapp fab fa-whatsapp" target="_blank" title="Whatsapp"></a>
-                                    <a href="#" class="https://www.linkedin.com/" target="_blank" title="Linkedin"></a>
+                                    <a href="{{$CompanySetting->facebook}}" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
+                                    <a href="{{$CompanySetting->whatsapp}}" class="social-icon social-whatsapp fab fa-whatsapp" target="_blank" title="Whatsapp"></a>
                                 </div>
                                 <!-- End .social-icons -->
                             </div>

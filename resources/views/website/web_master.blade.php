@@ -57,6 +57,9 @@
 
 <body>
     <div class="page-wrapper">
+        @php
+            $CompanySetting = App\Models\CompanySetting::first();
+        @endphp
 
         @include('website.header')
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\AccountItemUnitController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CompanySettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::get('datatable_data', [BasicController::class, 'DatatableData'])->name('datatable.data');
     Route::get('user_edit', [BasicController::class, 'UserEdit'])->name('user.edit');
 
+    // Company Setting
+    Route::get('company-setting', [CompanySettingController::class, 'CompanySetting'])->name('company-setting');
+    Route::post('company_add_update', [CompanySettingController::class, 'CompanyAddUpdate'])->name('company.add.update');
+
     // Slider
     Route::get('slider', [WebsiteController::class,'Slider'])->name('slider');
     Route::post('slider_insert', [WebsiteController::class,'SliderInsert'])->name('slider.insert');
@@ -88,6 +93,11 @@ Route::middleware('auth')->group(function () {
     Route::get('size_data', [AccountItemUnitController::class, 'SizeData'])->name('size.data');
     Route::get('size_edit_data', [AccountItemUnitController::class, 'SizeEditData'])->name('size.edit');
     Route::post('size_insert', [AccountItemUnitController::class, 'SizeInsert'])->name('size.insert');
+    // Color
+    Route::get('color', [AccountItemUnitController::class, 'Color'])->name('color');
+    Route::get('color_data', [AccountItemUnitController::class, 'ColorData'])->name('color.data');
+    Route::get('color_edit_data', [AccountItemUnitController::class, 'ColorEditData'])->name('color.edit');
+    Route::post('color_insert', [AccountItemUnitController::class, 'ColorInsert'])->name('color.insert');
     // Product
     Route::get('product', [ProductController::class, 'product'])->name('product');
     Route::get('product_add', [ProductController::class, 'AddProduct'])->name('product.add');

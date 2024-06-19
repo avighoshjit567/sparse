@@ -13,6 +13,7 @@
                     </li>
                     <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">Setting</span><i class="arrow la la-angle-right"></i></a>
                         <ul class="nav-2-level">
+                            <li><a href="{{ route('company-setting') }}">Company Setting</a></li>
                             <li><a href="{{ route('slider') }}">Slider</a></li>
                         </ul>
                     </li>
@@ -22,6 +23,7 @@
                             <li><a href="{{ route('brand') }}">Brand</a></li>
                             <li><a href="{{ route('unit') }}">Unit</a></li>
                             <li><a href="{{ route('size') }}">Size/Model</a></li>
+                            <li><a href="{{ route('color') }}">Color</a></li>
                             <li><a href="{{ route('product') }}">Product</a></li>
                         </ul>
                     </li>
