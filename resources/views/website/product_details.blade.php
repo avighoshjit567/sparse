@@ -159,21 +159,25 @@
                                         {{-- <div class="col-1"></div> --}}
                                     </div>
                                     
-                                    
                                 </div>
                             @else
                                 <div class="form-group ">
                                     <div class="row">
+                                        {{-- <div class="col-1"></div> --}}
                                         <div class="col-6">
-                                            <button type="button" class="btn btn-dark btn-block add-to-cart-two mr-2"
-                                            data-id="{{ $Products->id }}" title="Add to Cart">Add to
+                                            <button type="button" class="btn btn-primary btn-block add-to-cart-two mr-2"
+                                            data-id="{{ $Products->id }}" title="Add to Cart"> <i class="fa fa-plus"></i> Add to
                                             Cart</button>
                                         </div>
-                                        <div class="col-6">
-                                            <button type="button" class="btn btn-dark btn-block buy-now-two zoom mr-2"
-                                            data-id="{{ $Products->id }}" title="Buy now">BUY NOW</button>
+                                        {{-- <div class="col-1"></div> --}}
+                                        {{-- <div class="col-1"></div> --}}
+                                        <div class="col-6" style="">
+                                            <button type="button" class="btn btn-success btn-block buy-now-two zoom mr-2"
+                                            data-id="{{ $Products->id }}" title="Buy now"> <i class="fa fa-shopping-cart"></i> BUY NOW</button>
                                         </div>
+                                        {{-- <div class="col-1"></div> --}}
                                     </div>
+                                    
                                 </div>
                             @endif
 
