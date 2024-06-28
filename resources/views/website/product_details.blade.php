@@ -1,22 +1,45 @@
 @extends('website.web_master')
 @section('content')
+    <style>
+        .zoom{
+            /* animation: zoom-in-zoom-out 2s ease-out infinite; */
+            animation: cart-zoom-in-zoom-out 2s infinite;
+        }
+        @keyframes cart-zoom-in-zoom-out {
+            0% {
+                transform: scale(1);
+            }
+            20% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            
+            80%{
+                transform: scale(1)
+            }
+            100% {
+                    transform: scale(1)
+            }
+        }
+    </style>
 
-<main class="main">
-    <div class="container">
-        <nav aria-label="breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ URL::to('/') }}"><i class="icon-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
-            </ol>
-        </nav>
+    <main class="main">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ URL::to('/') }}"><i class="icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                </ol>
+            </nav>
 
-        <div class="product-single-container product-single-default">
+            <div class="product-single-container product-single-default">
 
 
-            <div class="row">
-                <div class="col-lg-5 col-md-6 product-single-gallery">
-                    <div class="product-slider-container">
-                        {{-- <div class="label-group">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 product-single-gallery">
+                        <div class="product-slider-container">
+                            {{-- <div class="label-group">
                             <div class="product-label label-hot">HOT</div>
 
                             <div class="product-label label-sale">
@@ -24,35 +47,38 @@
                             </div>
                         </div> --}}
 
-                        <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
+                            <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
+                                @foreach ($ProductImages as $ProductImage)
+                                    <div class="product-item">
+                                        <img class="product-single-image" src="{{ asset($ProductImage->image) }}"
+                                            data-zoom-image="{{ asset($ProductImage->image) }}" width="468"
+                                            height="468" alt="product" />
+                                    </div>
+                                @endforeach
+
+                            </div>
+                            <!-- End .product-single-carousel -->
+                            <span class="prod-full-screen">
+                                <i class="icon-plus"></i>
+                            </span>
+                        </div>
+
+                        <div class="prod-thumbnail owl-dots">
                             @foreach ($ProductImages as $ProductImage)
-                                <div class="product-item">
-                                    <img class="product-single-image" src="{{ asset($ProductImage->image) }}" data-zoom-image="{{ asset($ProductImage->image) }}" width="468" height="468" alt="product" />
+                                <div class="owl-dot">
+                                    <img src="{{ asset($ProductImage->image) }}" width="110" height="110"
+                                        alt="product-thumbnail" />
                                 </div>
                             @endforeach
 
                         </div>
-                        <!-- End .product-single-carousel -->
-                        <span class="prod-full-screen">
-                            <i class="icon-plus"></i>
-                        </span>
                     </div>
+                    <!-- End .product-single-gallery -->
 
-                    <div class="prod-thumbnail owl-dots">
-                        @foreach ($ProductImages as $ProductImage)
-                            <div class="owl-dot">
-                                <img src="{{ asset($ProductImage->image) }}" width="110" height="110" alt="product-thumbnail" />
-                            </div>
-                        @endforeach
+                    <div class="col-lg-7 col-md-6 product-single-details">
+                        <h1 class="product-title unique-product-name">{{ $Products->name }}</h1>
 
-                    </div>
-                </div>
-                <!-- End .product-single-gallery -->
-
-                <div class="col-lg-7 col-md-6 product-single-details">
-                    <h1 class="product-title unique-product-name">{{ $Products->name }}</h1>
-
-                    {{-- <div class="ratings-container">
+                        {{-- <div class="ratings-container">
                         <div class="product-ratings">
                             <span class="ratings" style="width:60%"></span>
 
@@ -61,129 +87,165 @@
 
                         <a href="#" class="rating-link">( 6 Reviews )</a>
                     </div> --}}
-                    <!-- End .ratings-container -->
+                        <!-- End .ratings-container -->
 
-                    <hr class="short-divider">
+                        <hr class="short-divider">
 
-                    <div class="price-box">
-                        @if($Products->discount_amount)
-                            <span class="old-price">৳{{ $Products->sale_price }}</span>
-                            <span class="product-price unique-product-price">৳{{ number_format($Products->sale_price - $Products->discount_amount,2) }}</span>
-                        @else
-                            <span class="product-price unique-product-price">৳{{ $Products->sale_price }}</span>
-                        @endif
-                    </div>
-                    <!-- End .price-box -->
-
-                    <div class="product-desc">
-                        <p>
-                            {{ $Products->short_description }}
-                        </p>
-                    </div>
-                    <!-- End .product-desc -->
-
-                    <ul class="single-info-list">
-
-                        <li>
-                            CATEGORY: <strong><a href="#" class="product-category">{{ $Products->Category ? $Products->Category->name:'' }}</a></strong>
-                        </li>
-
-                        <li>
-                            BRAND: <strong><a href="#" class="product-category">{{ $Products->Brand ? $Products->Brand->name:'' }}</a></strong>
-                        </li>
-                    </ul>
-
-                    <div class="product-action">
-                        <div class="product-single-qty">
-                            <input class="horizontal-quantity form-control" type="text">
+                        <div class="price-box">
+                            @if ($Products->discount_amount)
+                                <span class="old-price">৳{{ $Products->sale_price }}</span>
+                                <span
+                                    class="product-price unique-product-price">৳{{ number_format($Products->sale_price - $Products->discount_amount, 2) }}</span>
+                            @else
+                                <span class="product-price unique-product-price">৳{{ $Products->sale_price }}</span>
+                            @endif
                         </div>
-                        <!-- End .product-single-qty -->
-                        @if ($Products->size)
-                            <div class="form-group ">
-                                <label><strong>Choose Model</strong></label>
-                                <div class="select-custom">
-                                    <select class="form-control form-control-sm" name="size_id" id="size_id">
-                                        <option value="">Select Model</option>
-                                        @foreach ($explodes as $explode)
-                                            @php
-                                                $sizeQuery = App\Models\Size::where('id',$explode)->first();
-                                            @endphp
-                                            <option value="{{ $explode }}">{{ $sizeQuery->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <!-- End .price-box -->
+
+                        <div class="product-desc">
+                            <p>
+                                {{ $Products->short_description }}
+                            </p>
+                        </div>
+                        <!-- End .product-desc -->
+
+                        <ul class="single-info-list">
+
+                            <li>
+                                CATEGORY: <strong><a href="#"
+                                        class="product-category">{{ $Products->Category ? $Products->Category->name : '' }}</a></strong>
+                            </li>
+
+                            <li>
+                                BRAND: <strong><a href="#"
+                                        class="product-category">{{ $Products->Brand ? $Products->Brand->name : '' }}</a></strong>
+                            </li>
+                        </ul>
+
+                        <div class="product-action">
+                            <div class="product-single-qty">
+                                <input class="horizontal-quantity form-control" type="text">
                             </div>
-                            <button type="button" class="btn btn-dark add-to-cart-two mr-2" data-id="{{ $Products->id }}" title="Add to Cart">Add to
-                            Cart</button>
-                            <button type="button" class="btn btn-dark buy-now-two mr-2" data-id="{{ $Products->id }}" title="Buy now">BUY NOW</button>
-                        @else
+                            <!-- End .product-single-qty -->
+                            @if ($Products->size)
+                                <div class="form-group ">
+                                    <label><strong>Choose Model</strong></label>
+                                    <div class="select-custom">
+                                        <select class="form-control form-control-sm" name="size_id" id="size_id">
+                                            <option value="">Select Model</option>
+                                            @foreach ($explodes as $explode)
+                                                @php
+                                                    $sizeQuery = App\Models\Size::where('id', $explode)->first();
+                                                @endphp
+                                                <option value="{{ $explode }}">{{ $sizeQuery->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        {{-- <div class="col-1"></div> --}}
+                                        <div class="col-6">
+                                            <button type="button" class="btn btn-primary btn-block add-to-cart-two mr-2"
+                                            data-id="{{ $Products->id }}" title="Add to Cart"> <i class="fa fa-plus"></i> Add to
+                                            Cart</button>
+                                        </div>
+                                        {{-- <div class="col-1"></div> --}}
+                                        {{-- <div class="col-1"></div> --}}
+                                        <div class="col-6" style="">
+                                            <button type="button" class="btn btn-success btn-block buy-now-two zoom mr-2"
+                                            data-id="{{ $Products->id }}" title="Buy now"> <i class="fa fa-shopping-cart"></i> BUY NOW</button>
+                                        </div>
+                                        {{-- <div class="col-1"></div> --}}
+                                    </div>
+                                    
+                                    
+                                </div>
+                            @else
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button type="button" class="btn btn-dark btn-block add-to-cart-two mr-2"
+                                            data-id="{{ $Products->id }}" title="Add to Cart">Add to
+                                            Cart</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button type="button" class="btn btn-dark btn-block buy-now-two zoom mr-2"
+                                            data-id="{{ $Products->id }}" title="Buy now">BUY NOW</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
 
-                        <button type="button" class="btn btn-dark add-to-cart mr-2" data-id="{{ $Products->id }}" title="Add to Cart">Add to
-                            Cart</button>
-                        <button type="button" class="btn btn-dark buy-now mr-2" data-id="{{ $Products->id }}" title="Buy now">BUY NOW</button>
-
-                        @endif
-
-                        <a href="{{ route('cart') }}" class="btn btn-gray view-cart d-none">View cart</a>
-                    </div>
-                    <!-- End .product-action -->
-
-                    <hr class="divider mb-0 mt-0">
-
-                    <div class="product-single-share mb-3">
-                        <label class="sr-only">Share:</label>
-
-                        <div class="social-icons mr-2">
-                            <a href="#" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
-                            <a href="#" class="social-icon social-twitter icon-twitter" target="_blank" title="Twitter"></a>
-                            <a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank" title="Linkedin"></a>
-                            <a href="#" class="social-icon social-gplus fab fa-instagram" target="_blank" title="Instagram"></a>
-                            <a href="#" class="social-icon social-mail icon-mail-alt" target="_blank" title="Mail"></a>
+                            <a href="{{ route('cart') }}" class="btn btn-gray view-cart d-none">View cart</a>
                         </div>
-                        <!-- End .social-icons -->
+                        <!-- End .product-action -->
 
-                        {{-- <a href="wishlist.html" class="btn-icon-wish add-wishlist" title="Add to Wishlist"><i class="icon-wishlist-2"></i><span>Add to
+                        <hr class="divider mb-0 mt-0">
+
+                        <div class="product-single-share mb-3">
+                            <label class="sr-only">Share:</label>
+
+                            <div class="social-icons mr-2">
+                                <a href="#" class="social-icon social-facebook icon-facebook" target="_blank"
+                                    title="Facebook"></a>
+                                <a href="#" class="social-icon social-twitter icon-twitter" target="_blank"
+                                    title="Twitter"></a>
+                                <a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank"
+                                    title="Linkedin"></a>
+                                <a href="#" class="social-icon social-gplus fab fa-instagram" target="_blank"
+                                    title="Instagram"></a>
+                                <a href="#" class="social-icon social-mail icon-mail-alt" target="_blank"
+                                    title="Mail"></a>
+                            </div>
+                            <!-- End .social-icons -->
+
+                            {{-- <a href="wishlist.html" class="btn-icon-wish add-wishlist" title="Add to Wishlist"><i class="icon-wishlist-2"></i><span>Add to
                                 Wishlist</span></a> --}}
+                        </div>
+                        <!-- End .product single-share -->
                     </div>
-                    <!-- End .product single-share -->
+                    <!-- End .product-single-details -->
                 </div>
-                <!-- End .product-single-details -->
+                <!-- End .row -->
             </div>
-            <!-- End .row -->
-        </div>
-        <!-- End .product-single-container -->
+            <!-- End .product-single-container -->
 
-        <div class="product-single-tabs">
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="product-tab-desc" data-toggle="tab" href="#product-desc-content" role="tab" aria-controls="product-desc-content" aria-selected="true">Description</a>
-                </li>
+            <div class="product-single-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="product-tab-desc" data-toggle="tab" href="#product-desc-content"
+                            role="tab" aria-controls="product-desc-content" aria-selected="true">Description</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="product-tab-tags" data-toggle="tab" href="#product-tags-content" role="tab" aria-controls="product-tags-content" aria-selected="false">Additional
-                        Information</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="product-tab-tags" data-toggle="tab" href="#product-tags-content"
+                            role="tab" aria-controls="product-tags-content" aria-selected="false">Additional
+                            Information</a>
+                    </li>
 
-                {{-- <li class="nav-item">
+                    {{-- <li class="nav-item">
                     <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content" role="tab" aria-controls="product-reviews-content" aria-selected="false">Reviews (1)</a>
                 </li> --}}
-            </ul>
+                </ul>
 
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="product-desc-content" role="tabpanel" aria-labelledby="product-tab-desc">
-                    <div class="product-desc-content">
-                        <p>{!! $Products->long_description !!}</p>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="product-desc-content" role="tabpanel"
+                        aria-labelledby="product-tab-desc">
+                        <div class="product-desc-content">
+                            <p>{!! $Products->long_description !!}</p>
+                        </div>
+                        <!-- End .product-desc-content -->
                     </div>
-                    <!-- End .product-desc-content -->
-                </div>
-                <!-- End .tab-pane -->
+                    <!-- End .tab-pane -->
 
-                <div class="tab-pane fade" id="product-tags-content" role="tabpanel" aria-labelledby="product-tab-tags">
-                    {!! $Products->additional_info !!}
-                </div>
-                <!-- End .tab-pane -->
+                    <div class="tab-pane fade" id="product-tags-content" role="tabpanel"
+                        aria-labelledby="product-tab-tags">
+                        {!! $Products->additional_info !!}
+                    </div>
+                    <!-- End .tab-pane -->
 
-                {{-- <div class="tab-pane fade" id="product-reviews-content" role="tabpanel" aria-labelledby="product-tab-reviews">
+                    {{-- <div class="tab-pane fade" id="product-reviews-content" role="tabpanel" aria-labelledby="product-tab-reviews">
                     <div class="product-reviews-content">
                         <h3 class="reviews-title">1 review for Men Black Sports Shoes</h3>
 
@@ -285,88 +347,107 @@
                     </div>
                     <!-- End .product-reviews-content -->
                 </div> --}}
-                <!-- End .tab-pane -->
+                    <!-- End .tab-pane -->
+                </div>
+                <!-- End .tab-content -->
             </div>
-            <!-- End .tab-content -->
-        </div>
-        <!-- End .product-single-tabs -->
+            <!-- End .product-single-tabs -->
 
-        <div class="products-section pt-0">
-            <h2 class="section-title">Related Products</h2>
+            <div class="products-section pt-0">
+                <h2 class="section-title">Related Products</h2>
 
-            <div class="products-slider owl-carousel owl-theme dots-top dots-small">
-                @foreach ($Related_products as $Related_product)
-                    @php
-                        $Category = App\Models\Category::where('id',$Related_product->category_id)->first();
-                        $category_name = str_replace(" ","-",$Category->name);
-                        $ProductImageQueryCount = App\Models\ProductImages::where('product_id',$Related_product->id)->orderBy('id','asc')->count();
-                        $ProductImageQuery = App\Models\ProductImages::where('product_id',$Related_product->id)->orderBy('id','asc')->take(2)->get();
-                        // dd($ProductImageQuery);
-                        $new_product_name = str_replace(" ","-",$Related_product->name);
+                <div class="products-slider owl-carousel owl-theme dots-top dots-small">
+                    @foreach ($Related_products as $Related_product)
+                        @php
+                            $Category = App\Models\Category::where('id', $Related_product->category_id)->first();
+                            $category_name = str_replace(' ', '-', $Category->name);
+                            $ProductImageQueryCount = App\Models\ProductImages::where(
+                                'product_id',
+                                $Related_product->id,
+                            )
+                                ->orderBy('id', 'asc')
+                                ->count();
+                            $ProductImageQuery = App\Models\ProductImages::where('product_id', $Related_product->id)
+                                ->orderBy('id', 'asc')
+                                ->take(2)
+                                ->get();
+                            // dd($ProductImageQuery);
+                            $new_product_name = str_replace(' ', '-', $Related_product->name);
 
-                    @endphp
-                    <div class="product-default">
-                        <figure>
-                                @if($ProductImageQueryCount > 0)
-                                <a href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $Related_product->id }}">
-                                    <img src="{{ asset($ProductImageQuery[0]->image) }}" width="280" height="280" alt="product" />
-                                    @if($ProductImageQueryCount > 1)
-                                        <img src="{{ asset($ProductImageQuery[1]->image) }}" width="280" height="280" alt="product" />
-                                    @endif
-                                </a>
+                        @endphp
+                        <div class="product-default">
+                            <figure>
+                                @if ($ProductImageQueryCount > 0)
+                                    <a
+                                        href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $Related_product->id }}">
+                                        <img src="{{ asset($ProductImageQuery[0]->image) }}" width="215"
+                                            height="215" alt="product" />
+                                        @if ($ProductImageQueryCount > 1)
+                                            <img src="{{ asset($ProductImageQuery[1]->image) }}" width="215"
+                                                height="215" alt="product" />
+                                        @endif
+                                    </a>
                                 @else
-                                <a href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $Related_product->id }}">
-                                    <img src="{{ asset('images/no-image.jpg') }}" width="280" height="280" alt="product" />
-                                </a>
+                                    <a
+                                        href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $Related_product->id }}">
+                                        <img src="{{ asset('images/no-image.jpg') }}" width="215" height="215"
+                                            alt="product" />
+                                    </a>
                                 @endif
 
                                 {{-- <div class="label-group">
                                     <div class="product-label label-hot">HOT</div>
                                     <div class="product-label label-sale">-20%</div>
                                 </div> --}}
-                        </figure>
-                        <div class="product-details">
-                            <div class="category-list">
-                                <a href="{{ URL::to('categorywise-product') }}/{{ $category_name }}/{{ $Category->id }}" class="product-category">{{ $Category->name }}</a>
-                            </div>
-                            <h3 class="product-title">
-                                <a href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $Related_product->id }}">{{ $Related_product->name }}</a>
-                            </h3>
-                            {{-- <div class="ratings-container">
+                            </figure>
+                            <div class="product-details">
+                                <div class="category-list">
+                                    <a href="{{ URL::to('categorywise-product') }}/{{ $category_name }}/{{ $Category->id }}"
+                                        class="product-category">{{ $Category->name }}</a>
+                                </div>
+                                <h3 class="product-title">
+                                    <a
+                                        href="{{ URL::to('product-details') }}/{{ $new_product_name }}/{{ $Related_product->id }}">{{ $Related_product->name }}</a>
+                                </h3>
+                                {{-- <div class="ratings-container">
                                 <div class="product-ratings">
                                     <span class="ratings" style="width:80%"></span>
                                     <span class="tooltiptext tooltip-top"></span>
                                 </div>
                             </div> --}}
-                            <!-- End .product-container -->
-                            <div class="price-box">
-                                @if($Related_product->discount_amount)
-                                    <span class="old-price">৳{{ $Related_product->sale_price }}</span>
-                                    <span class="product-price">৳{{ number_format($Related_product->sale_price - $Related_product->discount_amount,2) }}</span>
-                                @else
-                                    <span class="product-price">৳{{ $Related_product->sale_price }}</span>
-                                @endif
+                                <!-- End .product-container -->
+                                <div class="price-box">
+                                    @if ($Related_product->discount_amount)
+                                        <span class="old-price">৳{{ $Related_product->sale_price }}</span>
+                                        <span
+                                            class="product-price">৳{{ number_format($Related_product->sale_price - $Related_product->discount_amount, 2) }}</span>
+                                    @else
+                                        <span class="product-price">৳{{ $Related_product->sale_price }}</span>
+                                    @endif
+                                </div>
+                                <!-- End .price-box -->
+                                <div class="product-action">
+                                    <a href="javascript:void(0);" class="btn-icon btn-add-cart add-to-cart"
+                                        data-id="{{ $Related_product->id }}"><i class="icon-shopping-cart"></i><span>ADD
+                                            TO CART</span></a>
+                                    <a href="javascript:void(0);" class="btn-icon btn-add-cart buy-now"
+                                        data-id="{{ $Related_product->id }}"><i class="icon-shopping-cart"></i><span>BUY
+                                            NOW</span></a>
+                                </div>
                             </div>
-                            <!-- End .price-box -->
-                            <div class="product-action">
-                                <a href="javascript:void(0);" class="btn-icon btn-add-cart add-to-cart" data-id="{{ $Related_product->id }}"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
-                                <a href="javascript:void(0);" class="btn-icon btn-add-cart buy-now" data-id="{{ $Related_product->id }}"><i class="icon-shopping-cart"></i><span>BUY NOW</span></a>
-                            </div>
+                            <!-- End .product-details -->
                         </div>
-                        <!-- End .product-details -->
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
+                <!-- End .products-slider -->
             </div>
-            <!-- End .products-slider -->
+            <!-- End .products-section -->
+            <!-- End .row -->
         </div>
-        <!-- End .products-section -->
-        <!-- End .row -->
-    </div>
-    <!-- End .container -->
-</main>
-<!-- End .main -->
+        <!-- End .container -->
+    </main>
+    <!-- End .main -->
 
 @endsection
 @section('script')
-
 @endsection
