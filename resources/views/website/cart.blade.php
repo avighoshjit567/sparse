@@ -7,8 +7,8 @@
 					<li class="active">
 						<a href="{{ route('cart') }}">Shopping Cart</a>
 					</li>
-					<li>
-						<a href="{{ route('checkout') }}">Checkout</a>
+					<li class="disabled">
+						<a href="#">Checkout</a>
 					</li>
 					<li class="disabled">
 						<a href="#">Order Complete</a>
@@ -189,7 +189,7 @@
 							</table>
 
 							<div class="checkout-methods">
-								<a href="{{ route('checkout') }}" class="btn btn-block btn-dark">Proceed to Checkout
+								<a href="#" class="btn btn-block btn-dark proceed">Proceed to Checkout
 									<i class="fa fa-arrow-right"></i></a>
 							</div>
 						</div><!-- End .cart-summary -->
@@ -241,6 +241,22 @@ $(document).ready(function() {
             }
         });
     });
+    
+        $(".proceed").click(function(e) {
+            e.preventDefault();
+            let loc = window.location.origin;
+            var shipping_charge = '';
+            var shipping_charge = $('input[name^="shipping_charge"]').val();
+            if(shipping_charge == ''){
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.error('Please Select Shipping Charge');
+                return false;
+            }else{
+                // alert(1122);
+                location.replace(loc+"/"+"checkout")
+            }
+        
+        });
 
         $(".cart_remove").click(function(e) {
             e.preventDefault();
